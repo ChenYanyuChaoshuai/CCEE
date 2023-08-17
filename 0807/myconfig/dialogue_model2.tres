@@ -1,0 +1,1070 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/dialogue_manager/dialogue_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+resource_version = 6
+syntax_version = 2
+raw_text = "
+~ 班主任
+# 获得新行动/任务时弹出ui提示
+if check_task_complete(\"班主任13\")
+	班主任: 我觉得每一位同学都应该向玩家学习, 非常专注的集中在学习上面
+	班主任: 对么?
+elif check_task_complete(\"班主任12\")
+	班主任: 你们看玩家的这个发型, 又简洁, 又好看
+	班主任: 对么?
+	set_task_available(\"班主任13\")
+	set_action_available(\"短发\")
+elif check_task_complete(\"班主任11\")
+	班主任: 很好, 背的非常熟练
+	班主任: 做一件小事可以成功, 做很多件小事就可以获得大的成功
+	班主任: 对么?
+	set_task_available(\"班主任12\")
+	set_action_available(\"校服\")
+else
+	班主任: 进入学校学习, 文化课成绩只是一部分
+	班主任: 对么?
+	班主任: 学会尊重师长是做人最基础的本分
+	班主任: 对么?
+	set_task_available(\"班主任11\")
+	set_action_available(\"弟子规\")
+
+
+
+~ 母亲
+
+if check_task_complete(\"母亲6\")
+	母亲: 谢谢你
+elif check_task_complete(\"母亲5\")
+	母亲: 你顾好学习, 就是什么都顾好了
+	set_task_available(\"母亲6\")
+
+elif check_task_complete(\"母亲4\")
+	母亲: 最近医院工作有点忙
+	set_task_available(\"母亲5\")
+
+elif check_task_complete(\"母亲3\")
+	母亲: 你怎么又来了?
+	set_task_available(\"母亲4\")
+
+elif check_task_complete(\"母亲2\")
+	母亲: 哎, 你放下, 碗不需要你洗
+	set_action_available(\"家务\")
+	set_task_available(\"母亲3\")
+
+elif check_task_complete(\"母亲1\")
+	母亲: 多吃点, 学校食堂是不是吃不好?
+	set_task_available(\"母亲2\")
+else
+	母亲: 最近学习情况怎么样?
+	set_action_available(\"回家吃饭\")
+	set_task_available(\"母亲1\")
+
+
+~ 挚友
+
+if check_task_complete(\"挚友6\")
+	挚友: 滚犊子吧你
+elif check_task_complete(\"挚友5\")
+	挚友: 我又不一样, 凑合上个二本就行
+	set_task_available(\"挚友6\")
+
+elif check_task_complete(\"挚友4\")
+	挚友: 调剂一下可以, 你是不是来上太多网了
+	set_task_available(\"挚友5\")
+
+elif check_task_complete(\"挚友3\")
+	挚友: 来来来, 中门对狙
+	set_task_available(\"挚友4\")
+	set_action_available(\"反恐精英\")
+elif check_task_complete(\"挚友2\")
+	挚友: 你这水平下降了呀
+	set_task_available(\"挚友3\")
+
+elif check_task_complete(\"挚友1\")
+	挚友: 我最近练了个新英雄
+	set_task_available(\"挚友2\")
+else
+	挚友: 打游戏吗?
+	set_action_available(\"英雄联盟\")
+	set_task_available(\"挚友1\")
+
+
+
+
+
+
+
+~ 书店老板
+
+书店老板: 买书吗?
+- 卡拉马佐夫兄弟
+	set_action_available(\"卡拉马佐夫兄弟\")
+- 生活在别处 [if remaining_rounds <= 40]
+	set_action_available(\"生活在别处\")
+- 暗店街 [if remaining_rounds <= 30] 
+	set_action_available(\"暗店街\")
+- 情人 [if remaining_rounds <= 20]
+	set_action_available(\"情人\")
+- 算了
+
+
+
+
+
+
+~ 行动
+# 执行行动的过程中记录本次行动的相关信息
+# action_income记录所有分数,好感度和能力值增加
+# 每次行动都会覆盖
+你执行了 {{action_title}}, 获得了 {{action_income}}
+
+
+
+~ 任务
+# 结算任务的过程中记录本次任务的相关信息
+# task_income记录所有能力值增加
+# 每次行动都会覆盖
+你完成了 {{task_title}}, 获得了 {{task_income}}
+
+
+
+~ 结局
+你的高考成绩是{{ccee_score}}, 考上了{{ccee_school}}"
+errors = [  ]
+titles = {
+"书店老板": "93",
+"任务": "121",
+"挚友": "59",
+"母亲": "29",
+"班主任": "3",
+"结局": "126",
+"行动": "113"
+}
+lines = {
+"1": {
+"next_id": "3",
+"text": "班主任",
+"type": "title"
+},
+"10": {
+"character": "",
+"next_id": "end!",
+"parent_id": "6",
+"replacements": [  ],
+"text": "set_action_available(\"短发\")",
+"translation_key": "set_action_available(\"短发\")",
+"type": "dialogue"
+},
+"100": {
+"condition": {
+"expression": [ {
+"type": "variable",
+"value": "remaining_rounds"
+}, {
+"type": "comparison",
+"value": "<="
+}, {
+"type": "number",
+"value": 20
+} ]
+},
+"next_id": "101",
+"next_id_after": "end!",
+"replacements": [  ],
+"text": "情人",
+"translation_key": "情人",
+"type": "response"
+},
+"101": {
+"character": "",
+"next_id": "end!",
+"parent_id": "100",
+"replacements": [  ],
+"text": "set_action_available(\"情人\")",
+"translation_key": "set_action_available(\"情人\")",
+"type": "dialogue"
+},
+"102": {
+"next_id": "end!",
+"next_id_after": "end!",
+"replacements": [  ],
+"text": "算了",
+"translation_key": "算了",
+"type": "response"
+},
+"109": {
+"next_id": "113",
+"text": "行动",
+"type": "title"
+},
+"11": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "班主任11"
+} ] ]
+} ]
+},
+"next_conditional_id": "17",
+"next_id": "12",
+"next_id_after": "end!",
+"type": "condition"
+},
+"113": {
+"character": "",
+"next_id": "",
+"replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "action_title"
+} ],
+"value_in_text": "{{action_title}}"
+}, {
+"expression": [ {
+"type": "variable",
+"value": "action_income"
+} ],
+"value_in_text": "{{action_income}}"
+} ],
+"text": "你执行了 {{action_title}}, 获得了 {{action_income}}",
+"translation_key": "你执行了 {{action_title}}, 获得了 {{action_income}}",
+"type": "dialogue"
+},
+"117": {
+"next_id": "121",
+"text": "任务",
+"type": "title"
+},
+"12": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "13",
+"parent_id": "11",
+"replacements": [  ],
+"text": "很好, 背的非常熟练",
+"translation_key": "很好, 背的非常熟练",
+"type": "dialogue"
+},
+"121": {
+"character": "",
+"next_id": "",
+"replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "task_title"
+} ],
+"value_in_text": "{{task_title}}"
+}, {
+"expression": [ {
+"type": "variable",
+"value": "task_income"
+} ],
+"value_in_text": "{{task_income}}"
+} ],
+"text": "你完成了 {{task_title}}, 获得了 {{task_income}}",
+"translation_key": "你完成了 {{task_title}}, 获得了 {{task_income}}",
+"type": "dialogue"
+},
+"125": {
+"next_id": "126",
+"text": "结局",
+"type": "title"
+},
+"126": {
+"character": "",
+"next_id": "",
+"replacements": [ {
+"expression": [ {
+"type": "variable",
+"value": "ccee_score"
+} ],
+"value_in_text": "{{ccee_score}}"
+}, {
+"expression": [ {
+"type": "variable",
+"value": "ccee_school"
+} ],
+"value_in_text": "{{ccee_school}}"
+} ],
+"text": "你的高考成绩是{{ccee_score}}, 考上了{{ccee_school}}",
+"translation_key": "你的高考成绩是{{ccee_score}}, 考上了{{ccee_school}}",
+"type": "dialogue"
+},
+"13": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "14",
+"parent_id": "11",
+"replacements": [  ],
+"text": "做一件小事可以成功, 做很多件小事就可以获得大的成功",
+"translation_key": "做一件小事可以成功, 做很多件小事就可以获得大的成功",
+"type": "dialogue"
+},
+"14": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "15",
+"parent_id": "11",
+"replacements": [  ],
+"text": "对么?",
+"translation_key": "对么?",
+"type": "dialogue"
+},
+"15": {
+"character": "",
+"next_id": "16",
+"parent_id": "11",
+"replacements": [  ],
+"text": "set_task_available(\"班主任12\")",
+"translation_key": "set_task_available(\"班主任12\")",
+"type": "dialogue"
+},
+"16": {
+"character": "",
+"next_id": "end!",
+"parent_id": "11",
+"replacements": [  ],
+"text": "set_action_available(\"校服\")",
+"translation_key": "set_action_available(\"校服\")",
+"type": "dialogue"
+},
+"17": {
+"next_conditional_id": "end!",
+"next_id": "18",
+"next_id_after": "end!",
+"type": "condition"
+},
+"18": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "19",
+"parent_id": "17",
+"replacements": [  ],
+"text": "进入学校学习, 文化课成绩只是一部分",
+"translation_key": "进入学校学习, 文化课成绩只是一部分",
+"type": "dialogue"
+},
+"19": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "20",
+"parent_id": "17",
+"replacements": [  ],
+"text": "对么?",
+"translation_key": "对么?",
+"type": "dialogue"
+},
+"20": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "21",
+"parent_id": "17",
+"replacements": [  ],
+"text": "学会尊重师长是做人最基础的本分",
+"translation_key": "学会尊重师长是做人最基础的本分",
+"type": "dialogue"
+},
+"21": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "22",
+"parent_id": "17",
+"replacements": [  ],
+"text": "对么?",
+"translation_key": "对么?",
+"type": "dialogue"
+},
+"22": {
+"character": "",
+"next_id": "23",
+"parent_id": "17",
+"replacements": [  ],
+"text": "set_task_available(\"班主任11\")",
+"translation_key": "set_task_available(\"班主任11\")",
+"type": "dialogue"
+},
+"23": {
+"character": "",
+"next_id": "end!",
+"parent_id": "17",
+"replacements": [  ],
+"text": "set_action_available(\"弟子规\")",
+"translation_key": "set_action_available(\"弟子规\")",
+"type": "dialogue"
+},
+"27": {
+"next_id": "29",
+"text": "母亲",
+"type": "title"
+},
+"29": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "母亲6"
+} ] ]
+} ]
+},
+"next_conditional_id": "31",
+"next_id": "30",
+"next_id_after": "end!",
+"type": "condition"
+},
+"3": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "班主任13"
+} ] ]
+} ]
+},
+"next_conditional_id": "6",
+"next_id": "4",
+"next_id_after": "end!",
+"type": "condition"
+},
+"30": {
+"character": "母亲",
+"character_replacements": [  ],
+"next_id": "end!",
+"parent_id": "29",
+"replacements": [  ],
+"text": "谢谢你",
+"translation_key": "谢谢你",
+"type": "dialogue"
+},
+"31": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "母亲5"
+} ] ]
+} ]
+},
+"next_conditional_id": "35",
+"next_id": "32",
+"next_id_after": "end!",
+"type": "condition"
+},
+"32": {
+"character": "母亲",
+"character_replacements": [  ],
+"next_id": "33",
+"parent_id": "31",
+"replacements": [  ],
+"text": "你顾好学习, 就是什么都顾好了",
+"translation_key": "你顾好学习, 就是什么都顾好了",
+"type": "dialogue"
+},
+"33": {
+"character": "",
+"next_id": "end!",
+"parent_id": "31",
+"replacements": [  ],
+"text": "set_task_available(\"母亲6\")",
+"translation_key": "set_task_available(\"母亲6\")",
+"type": "dialogue"
+},
+"35": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "母亲4"
+} ] ]
+} ]
+},
+"next_conditional_id": "39",
+"next_id": "36",
+"next_id_after": "end!",
+"type": "condition"
+},
+"36": {
+"character": "母亲",
+"character_replacements": [  ],
+"next_id": "37",
+"parent_id": "35",
+"replacements": [  ],
+"text": "最近医院工作有点忙",
+"translation_key": "最近医院工作有点忙",
+"type": "dialogue"
+},
+"37": {
+"character": "",
+"next_id": "end!",
+"parent_id": "35",
+"replacements": [  ],
+"text": "set_task_available(\"母亲5\")",
+"translation_key": "set_task_available(\"母亲5\")",
+"type": "dialogue"
+},
+"39": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "母亲3"
+} ] ]
+} ]
+},
+"next_conditional_id": "43",
+"next_id": "40",
+"next_id_after": "end!",
+"type": "condition"
+},
+"4": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "5",
+"parent_id": "3",
+"replacements": [  ],
+"text": "我觉得每一位同学都应该向玩家学习, 非常专注的集中在学习上面",
+"translation_key": "我觉得每一位同学都应该向玩家学习, 非常专注的集中在学习上面",
+"type": "dialogue"
+},
+"40": {
+"character": "母亲",
+"character_replacements": [  ],
+"next_id": "41",
+"parent_id": "39",
+"replacements": [  ],
+"text": "你怎么又来了?",
+"translation_key": "你怎么又来了?",
+"type": "dialogue"
+},
+"41": {
+"character": "",
+"next_id": "end!",
+"parent_id": "39",
+"replacements": [  ],
+"text": "set_task_available(\"母亲4\")",
+"translation_key": "set_task_available(\"母亲4\")",
+"type": "dialogue"
+},
+"43": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "母亲2"
+} ] ]
+} ]
+},
+"next_conditional_id": "48",
+"next_id": "44",
+"next_id_after": "end!",
+"type": "condition"
+},
+"44": {
+"character": "母亲",
+"character_replacements": [  ],
+"next_id": "45",
+"parent_id": "43",
+"replacements": [  ],
+"text": "哎, 你放下, 碗不需要你洗",
+"translation_key": "哎, 你放下, 碗不需要你洗",
+"type": "dialogue"
+},
+"45": {
+"character": "",
+"next_id": "46",
+"parent_id": "43",
+"replacements": [  ],
+"text": "set_action_available(\"家务\")",
+"translation_key": "set_action_available(\"家务\")",
+"type": "dialogue"
+},
+"46": {
+"character": "",
+"next_id": "end!",
+"parent_id": "43",
+"replacements": [  ],
+"text": "set_task_available(\"母亲3\")",
+"translation_key": "set_task_available(\"母亲3\")",
+"type": "dialogue"
+},
+"48": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "母亲1"
+} ] ]
+} ]
+},
+"next_conditional_id": "51",
+"next_id": "49",
+"next_id_after": "end!",
+"type": "condition"
+},
+"49": {
+"character": "母亲",
+"character_replacements": [  ],
+"next_id": "50",
+"parent_id": "48",
+"replacements": [  ],
+"text": "多吃点, 学校食堂是不是吃不好?",
+"translation_key": "多吃点, 学校食堂是不是吃不好?",
+"type": "dialogue"
+},
+"5": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "end!",
+"parent_id": "3",
+"replacements": [  ],
+"text": "对么?",
+"translation_key": "对么?",
+"type": "dialogue"
+},
+"50": {
+"character": "",
+"next_id": "end!",
+"parent_id": "48",
+"replacements": [  ],
+"text": "set_task_available(\"母亲2\")",
+"translation_key": "set_task_available(\"母亲2\")",
+"type": "dialogue"
+},
+"51": {
+"next_conditional_id": "end!",
+"next_id": "52",
+"next_id_after": "end!",
+"type": "condition"
+},
+"52": {
+"character": "母亲",
+"character_replacements": [  ],
+"next_id": "53",
+"parent_id": "51",
+"replacements": [  ],
+"text": "最近学习情况怎么样?",
+"translation_key": "最近学习情况怎么样?",
+"type": "dialogue"
+},
+"53": {
+"character": "",
+"next_id": "54",
+"parent_id": "51",
+"replacements": [  ],
+"text": "set_action_available(\"回家吃饭\")",
+"translation_key": "set_action_available(\"回家吃饭\")",
+"type": "dialogue"
+},
+"54": {
+"character": "",
+"next_id": "end!",
+"parent_id": "51",
+"replacements": [  ],
+"text": "set_task_available(\"母亲1\")",
+"translation_key": "set_task_available(\"母亲1\")",
+"type": "dialogue"
+},
+"57": {
+"next_id": "59",
+"text": "挚友",
+"type": "title"
+},
+"59": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "挚友6"
+} ] ]
+} ]
+},
+"next_conditional_id": "61",
+"next_id": "60",
+"next_id_after": "end!",
+"type": "condition"
+},
+"6": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "班主任12"
+} ] ]
+} ]
+},
+"next_conditional_id": "11",
+"next_id": "7",
+"next_id_after": "end!",
+"type": "condition"
+},
+"60": {
+"character": "挚友",
+"character_replacements": [  ],
+"next_id": "end!",
+"parent_id": "59",
+"replacements": [  ],
+"text": "滚犊子吧你",
+"translation_key": "滚犊子吧你",
+"type": "dialogue"
+},
+"61": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "挚友5"
+} ] ]
+} ]
+},
+"next_conditional_id": "65",
+"next_id": "62",
+"next_id_after": "end!",
+"type": "condition"
+},
+"62": {
+"character": "挚友",
+"character_replacements": [  ],
+"next_id": "63",
+"parent_id": "61",
+"replacements": [  ],
+"text": "我又不一样, 凑合上个二本就行",
+"translation_key": "我又不一样, 凑合上个二本就行",
+"type": "dialogue"
+},
+"63": {
+"character": "",
+"next_id": "end!",
+"parent_id": "61",
+"replacements": [  ],
+"text": "set_task_available(\"挚友6\")",
+"translation_key": "set_task_available(\"挚友6\")",
+"type": "dialogue"
+},
+"65": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "挚友4"
+} ] ]
+} ]
+},
+"next_conditional_id": "69",
+"next_id": "66",
+"next_id_after": "end!",
+"type": "condition"
+},
+"66": {
+"character": "挚友",
+"character_replacements": [  ],
+"next_id": "67",
+"parent_id": "65",
+"replacements": [  ],
+"text": "调剂一下可以, 你是不是来上太多网了",
+"translation_key": "调剂一下可以, 你是不是来上太多网了",
+"type": "dialogue"
+},
+"67": {
+"character": "",
+"next_id": "end!",
+"parent_id": "65",
+"replacements": [  ],
+"text": "set_task_available(\"挚友5\")",
+"translation_key": "set_task_available(\"挚友5\")",
+"type": "dialogue"
+},
+"69": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "挚友3"
+} ] ]
+} ]
+},
+"next_conditional_id": "73",
+"next_id": "70",
+"next_id_after": "end!",
+"type": "condition"
+},
+"7": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "8",
+"parent_id": "6",
+"replacements": [  ],
+"text": "你们看玩家的这个发型, 又简洁, 又好看",
+"translation_key": "你们看玩家的这个发型, 又简洁, 又好看",
+"type": "dialogue"
+},
+"70": {
+"character": "挚友",
+"character_replacements": [  ],
+"next_id": "71",
+"parent_id": "69",
+"replacements": [  ],
+"text": "来来来, 中门对狙",
+"translation_key": "来来来, 中门对狙",
+"type": "dialogue"
+},
+"71": {
+"character": "",
+"next_id": "72",
+"parent_id": "69",
+"replacements": [  ],
+"text": "set_task_available(\"挚友4\")",
+"translation_key": "set_task_available(\"挚友4\")",
+"type": "dialogue"
+},
+"72": {
+"character": "",
+"next_id": "end!",
+"parent_id": "69",
+"replacements": [  ],
+"text": "set_action_available(\"反恐精英\")",
+"translation_key": "set_action_available(\"反恐精英\")",
+"type": "dialogue"
+},
+"73": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "挚友2"
+} ] ]
+} ]
+},
+"next_conditional_id": "77",
+"next_id": "74",
+"next_id_after": "end!",
+"type": "condition"
+},
+"74": {
+"character": "挚友",
+"character_replacements": [  ],
+"next_id": "75",
+"parent_id": "73",
+"replacements": [  ],
+"text": "你这水平下降了呀",
+"translation_key": "你这水平下降了呀",
+"type": "dialogue"
+},
+"75": {
+"character": "",
+"next_id": "end!",
+"parent_id": "73",
+"replacements": [  ],
+"text": "set_task_available(\"挚友3\")",
+"translation_key": "set_task_available(\"挚友3\")",
+"type": "dialogue"
+},
+"77": {
+"condition": {
+"expression": [ {
+"function": "check_task_complete",
+"type": "function",
+"value": [ [ {
+"type": "string",
+"value": "挚友1"
+} ] ]
+} ]
+},
+"next_conditional_id": "80",
+"next_id": "78",
+"next_id_after": "end!",
+"type": "condition"
+},
+"78": {
+"character": "挚友",
+"character_replacements": [  ],
+"next_id": "79",
+"parent_id": "77",
+"replacements": [  ],
+"text": "我最近练了个新英雄",
+"translation_key": "我最近练了个新英雄",
+"type": "dialogue"
+},
+"79": {
+"character": "",
+"next_id": "end!",
+"parent_id": "77",
+"replacements": [  ],
+"text": "set_task_available(\"挚友2\")",
+"translation_key": "set_task_available(\"挚友2\")",
+"type": "dialogue"
+},
+"8": {
+"character": "班主任",
+"character_replacements": [  ],
+"next_id": "9",
+"parent_id": "6",
+"replacements": [  ],
+"text": "对么?",
+"translation_key": "对么?",
+"type": "dialogue"
+},
+"80": {
+"next_conditional_id": "end!",
+"next_id": "81",
+"next_id_after": "end!",
+"type": "condition"
+},
+"81": {
+"character": "挚友",
+"character_replacements": [  ],
+"next_id": "82",
+"parent_id": "80",
+"replacements": [  ],
+"text": "打游戏吗?",
+"translation_key": "打游戏吗?",
+"type": "dialogue"
+},
+"82": {
+"character": "",
+"next_id": "83",
+"parent_id": "80",
+"replacements": [  ],
+"text": "set_action_available(\"英雄联盟\")",
+"translation_key": "set_action_available(\"英雄联盟\")",
+"type": "dialogue"
+},
+"83": {
+"character": "",
+"next_id": "end!",
+"parent_id": "80",
+"replacements": [  ],
+"text": "set_task_available(\"挚友1\")",
+"translation_key": "set_task_available(\"挚友1\")",
+"type": "dialogue"
+},
+"9": {
+"character": "",
+"next_id": "10",
+"parent_id": "6",
+"replacements": [  ],
+"text": "set_task_available(\"班主任13\")",
+"translation_key": "set_task_available(\"班主任13\")",
+"type": "dialogue"
+},
+"91": {
+"next_id": "93",
+"text": "书店老板",
+"type": "title"
+},
+"93": {
+"character": "书店老板",
+"character_replacements": [  ],
+"next_id": "94",
+"replacements": [  ],
+"text": "买书吗?",
+"translation_key": "买书吗?",
+"type": "dialogue"
+},
+"94": {
+"next_id": "95",
+"next_id_after": "end!",
+"replacements": [  ],
+"responses": PoolStringArray( "94", "96", "98", "100", "102" ),
+"text": "卡拉马佐夫兄弟",
+"translation_key": "卡拉马佐夫兄弟",
+"type": "response"
+},
+"95": {
+"character": "",
+"next_id": "end!",
+"parent_id": "94",
+"replacements": [  ],
+"text": "set_action_available(\"卡拉马佐夫兄弟\")",
+"translation_key": "set_action_available(\"卡拉马佐夫兄弟\")",
+"type": "dialogue"
+},
+"96": {
+"condition": {
+"expression": [ {
+"type": "variable",
+"value": "remaining_rounds"
+}, {
+"type": "comparison",
+"value": "<="
+}, {
+"type": "number",
+"value": 40
+} ]
+},
+"next_id": "97",
+"next_id_after": "end!",
+"replacements": [  ],
+"text": "生活在别处",
+"translation_key": "生活在别处",
+"type": "response"
+},
+"97": {
+"character": "",
+"next_id": "end!",
+"parent_id": "96",
+"replacements": [  ],
+"text": "set_action_available(\"生活在别处\")",
+"translation_key": "set_action_available(\"生活在别处\")",
+"type": "dialogue"
+},
+"98": {
+"condition": {
+"expression": [ {
+"type": "variable",
+"value": "remaining_rounds"
+}, {
+"type": "comparison",
+"value": "<="
+}, {
+"type": "number",
+"value": 30
+} ]
+},
+"next_id": "99",
+"next_id_after": "end!",
+"replacements": [  ],
+"text": "暗店街",
+"translation_key": "暗店街",
+"type": "response"
+},
+"99": {
+"character": "",
+"next_id": "end!",
+"parent_id": "98",
+"replacements": [  ],
+"text": "set_action_available(\"暗店街\")",
+"translation_key": "set_action_available(\"暗店街\")",
+"type": "dialogue"
+}
+}

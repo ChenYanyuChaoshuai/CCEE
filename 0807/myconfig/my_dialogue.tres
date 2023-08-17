@@ -1,0 +1,129 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/dialogue_manager/dialogue_resource.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+resource_version = 2
+syntax_version = 2
+raw_text = "~ this_is_a_node_title
+
+Nathan: This is some dialogue.
+Nathan: Here are some choices.
+- First one
+	Nathan: You picked the first one.
+- Second one
+	Nathan: You picked the second one.
+- Start again => this_is_a_node_title
+- End the conversation => END
+Nathan: For more information about conditional dialogue, mutations, and all the fun stuff, see the online documentation.
+
+~ 举个栗子
+
+Nathan: 你吃饭了吗"
+errors = [  ]
+titles = {
+"this_is_a_node_title": "2",
+"举个栗子": "14"
+}
+lines = {
+"0": {
+"next_id": "2",
+"text": "this_is_a_node_title",
+"type": "title"
+},
+"10": {
+"character": "Nathan",
+"character_replacements": [  ],
+"next_id": "",
+"replacements": [  ],
+"text": "For more information about conditional dialogue, mutations, and all the fun stuff, see the online documentation.",
+"translation_key": "For more information about conditional dialogue, mutations, and all the fun stuff, see the online documentation.",
+"type": "dialogue"
+},
+"12": {
+"next_id": "14",
+"text": "举个栗子",
+"type": "title"
+},
+"14": {
+"character": "Nathan",
+"character_replacements": [  ],
+"next_id": "",
+"replacements": [  ],
+"text": "你吃饭了吗",
+"translation_key": "你吃饭了吗",
+"type": "dialogue"
+},
+"2": {
+"character": "Nathan",
+"character_replacements": [  ],
+"next_id": "3",
+"replacements": [  ],
+"text": "This is some dialogue.",
+"translation_key": "This is some dialogue.",
+"type": "dialogue"
+},
+"3": {
+"character": "Nathan",
+"character_replacements": [  ],
+"next_id": "4",
+"replacements": [  ],
+"text": "Here are some choices.",
+"translation_key": "Here are some choices.",
+"type": "dialogue"
+},
+"4": {
+"next_id": "5",
+"next_id_after": "10",
+"replacements": [  ],
+"responses": PoolStringArray( "4", "6", "8", "9" ),
+"text": "First one",
+"translation_key": "First one",
+"type": "response"
+},
+"5": {
+"character": "Nathan",
+"character_replacements": [  ],
+"next_id": "10",
+"parent_id": "4",
+"replacements": [  ],
+"text": "You picked the first one.",
+"translation_key": "You picked the first one.",
+"type": "dialogue"
+},
+"6": {
+"next_id": "7",
+"next_id_after": "10",
+"replacements": [  ],
+"text": "Second one",
+"translation_key": "Second one",
+"type": "response"
+},
+"7": {
+"character": "Nathan",
+"character_replacements": [  ],
+"next_id": "10",
+"parent_id": "6",
+"replacements": [  ],
+"text": "You picked the second one.",
+"translation_key": "You picked the second one.",
+"type": "dialogue"
+},
+"8": {
+"next_id": "2",
+"next_id_after": "10",
+"replacements": [  ],
+"text": "Start again",
+"translation_key": "Start again",
+"type": "response"
+},
+"9": {
+"next_id": "end",
+"next_id_after": "10",
+"replacements": [  ],
+"text": "End the conversation",
+"translation_key": "End the conversation",
+"type": "response"
+}
+}
